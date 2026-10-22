@@ -1,0 +1,353 @@
+/* IlyaPoint player styles. Vendored into each deck as ilyapoint/ilyapoint.css. */
+
+.ip-deck {
+  --ip-fg: #ffffff;
+  --ip-gray: #8e8e93;
+  --ip-red: #ff453a;
+  --ip-orange: #ff9f0a;
+  --ip-yellow: #ffd60a;
+  --ip-green: #30d158;
+  --ip-blue: #0a84ff;
+  --ip-purple: #bf5af2;
+  --ip-bg: #000000;
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.ip-deck[data-theme='light'] {
+  --ip-fg: #000000;
+  --ip-gray: #8e8e93;
+  --ip-red: #e0281e;
+  --ip-orange: #f08c00;
+  --ip-yellow: #e8b800;
+  --ip-green: #1fa74a;
+  --ip-blue: #006ee6;
+  --ip-purple: #9b3fd1;
+  --ip-bg: #ffffff;
+}
+
+.ip-slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--ip-bg);
+  color: var(--ip-fg);
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 48px;
+  line-height: 1.2;
+  box-sizing: border-box;
+  contain: layout paint;
+}
+
+.ip-el {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  transform-origin: 50% 50%;
+}
+
+.ip-text {
+  font-size: 48px;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.ip-text ul,
+.ip-text ol {
+  margin: 0;
+  padding-left: 1.1em;
+}
+.ip-text li + li {
+  margin-top: 0.25em;
+}
+.ip-text p,
+.ip-text div {
+  margin: 0;
+}
+.ip-math-display {
+  display: block;
+  margin: 0.2em 0;
+}
+
+.ip-media {
+  overflow: hidden;
+}
+.ip-media > img,
+.ip-media > video {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  user-select: none;
+  -webkit-user-drag: none;
+  display: block;
+}
+.ip-pixelated {
+  image-rendering: pixelated;
+}
+
+/* Live HTML apps. Previews (thumbnails) don't run them; they show the app's name instead. */
+.ip-embed > iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: transparent;
+  color-scheme: normal;
+}
+.ip-embed-still {
+  border: 4px dashed var(--ip-gray);
+  border-radius: 16px;
+}
+.ip-embed-still::after {
+  content: '▶ ' attr(data-ip-label);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  color: var(--ip-gray);
+}
+
+.ip-svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  display: block;
+}
+
+.ip-notes {
+  display: none;
+}
+
+.ip-slide-number {
+  position: absolute;
+  right: 48px;
+  bottom: 32px;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ip-gray);
+  pointer-events: none;
+}
+
+/* ---------- Stage (player & editor) ---------- */
+
+.ip-viewport {
+  position: relative;
+  overflow: hidden;
+}
+.ip-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+.ip-live .ip-slide {
+  display: none;
+}
+.ip-live .ip-slide.ip-active {
+  display: block;
+}
+.ip-morph-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ---------- Standalone player ---------- */
+
+html.ip-player,
+html.ip-player body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+html.ip-player .ip-viewport {
+  position: fixed;
+  inset: 0;
+}
+html.ip-player.ip-hide-cursor,
+html.ip-player.ip-hide-cursor * {
+  cursor: none !important;
+}
+html.ip-player .ip-media {
+  cursor: zoom-in;
+}
+html.ip-player .ip-media.ip-zoomed {
+  cursor: grab;
+}
+html.ip-player .ip-media.ip-panning {
+  cursor: grabbing;
+}
+
+.ip-scrub {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  z-index: 2;
+}
+.ip-media:hover .ip-scrub {
+  opacity: 1;
+}
+.ip-scrub > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.ip-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: rgba(40, 40, 40, 0.9);
+  color: #fff;
+  font: 14px/1.4 -apple-system, system-ui, sans-serif;
+  padding: 6px 12px;
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ---------- Presenter view ---------- */
+
+html.ip-presenter,
+html.ip-presenter body {
+  margin: 0;
+  height: 100%;
+  background: #111;
+  color: #eee;
+  font: 16px/1.4 -apple-system, system-ui, sans-serif;
+  overflow: hidden;
+}
+.ip-pv {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: auto 1fr;
+  gap: 16px;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.ip-pv-current {
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+.ip-pv-current .ip-viewport,
+.ip-pv-next .ip-viewport {
+  flex: 1;
+  background: #000;
+  border-radius: 4px;
+}
+.ip-pv-next {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  aspect-ratio: 16 / 10;
+}
+.ip-pv-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+.ip-pv-bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+.ip-pv-bar .ip-pv-timer {
+  font-size: 32px;
+  font-weight: 600;
+}
+.ip-pv-bar button {
+  background: #333;
+  color: #eee;
+  border: 0;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.ip-pv-notes {
+  flex: 1;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-size: 22px;
+  line-height: 1.45;
+  background: #1b1b1b;
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+.ip-pv-label {
+  color: #999;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Print / PDF ---------- */
+
+@media print {
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
+  }
+  html.ip-player,
+  html.ip-player body {
+    height: auto;
+    overflow: visible;
+    background: none;
+  }
+  html.ip-player .ip-viewport {
+    position: static;
+    overflow: visible;
+  }
+  html.ip-player .ip-stage {
+    position: static;
+    transform: none !important;
+  }
+  html.ip-player .ip-deck {
+    height: auto;
+  }
+  html.ip-player .ip-slide {
+    position: relative !important;
+    display: block !important;
+    opacity: 1 !important;
+    break-after: page;
+    page-break-after: always;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .ip-morph-layer,
+  .ip-scrub,
+  .ip-toast {
+    display: none !important;
+  }
+}
